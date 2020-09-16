@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fit-server
+  labels:
+    name: fit-server
+spec:
+  ports:
+  - name: http
+    port: 1337
+    protocol: TCP
+  - name: http-admin
+    port: 1338
+    protocol: TCP    
+  selector:
+    name: fit-server
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fit-server
+spec:
+  selector:
+    matchLabels:
+      name: fit-server
+  template:
+    metadata:
+      labels:
+        name: fit-server
+    spec:
+      containers:
+        - name: fit-server
+          image: "docker-local.artifactory.neterra.paysafe.com/fit-server:1.0.2"
+          ports:
+            - name: http
+              hostPort: 9000
+              containerPort: 1337
+            - name: http-admin
+              hostPort: 9001
+              containerPort: 1338
+

@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  fit-server:
+    image: docker-local.artifactory.neterra.paysafe.com/fit-server:1.0.2
+    deploy:
+      mode: global
+    ports:
+    - target: 1337
+      published: 9000
+      protocol: tcp
+      mode: host
+    - target: 1338
+      published: 9001
+      protocol: tcp
+      mode: host      
